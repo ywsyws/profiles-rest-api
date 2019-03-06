@@ -1,10 +1,11 @@
 from django.shortcuts import render
 
+from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 
 from . import serializers
-from rest_framework import status
 
 # Create your views here.
 
@@ -43,20 +44,29 @@ class HelloApiView(APIView):
 
         return Response({'method':'put'})
 
-    #def patch(self, request, pk=None):
+    def patch(self, request, pk=None):
         """Patch request, only updates fields provided in the request."""
         """this example missing the method to actually update the differences \
         between what's been provided in the request"""
 
-        #return Response({'method':'patch'})
-
-    def patch(self, request, pk=None):
-        """Patch request, only updates fields provided in the request."""
-
-        return Response({'method': 'patch'})
-
+        return Response({'method':'patch'})
 
     def delete(self, request, pk=None):
         """Delete an object."""
 
         return Response({'method':'delete'})
+
+
+class HelloViewSet(viewsets.ViewSet):
+    """Test API ViewSet."""
+
+    def list(self, request):
+        """Return a hello message."""
+
+        a_viewset = [
+            'Uses actions (list, create, retrieve, update, partial_update)',
+            'Automaticallhy maps to URLs using Routers',
+            'Provides more functionality with less code.'
+        ]
+
+        return Response({'message': 'Hello!', 'a_viewset': a_viewset})
